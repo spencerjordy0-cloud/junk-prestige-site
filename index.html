@@ -256,16 +256,15 @@
   .reveal-grid{display:grid;grid-template-columns:1fr;gap:56px;align-items:center;}
   @media(min-width:960px){.reveal-grid{grid-template-columns:.9fr 1.1fr;}}
   .ba-slider{
-    position:relative;width:100%;max-width:420px;margin:0 auto;
-    aspect-ratio:213/406;
+    position:relative;width:100%;max-width:640px;margin:0 auto;
+    aspect-ratio:1402/561;
     overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow);
     user-select:none;-webkit-user-select:none;touch-action:pan-y;
     cursor:ew-resize;
     border:1px solid var(--line);
   }
   .ba-slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;}
-  .ba-after-wrap{position:absolute;inset:0;width:62%;overflow:hidden;}
-  .ba-after-wrap img{width:606%;max-width:none;height:100%;}
+  .ba-after{clip-path:inset(0 38% 0 0);}
   .ba-handle{
     position:absolute;top:0;bottom:0;left:62%;width:0;transform:translateX(-50%);
     display:flex;align-items:center;justify-content:center;
@@ -562,11 +561,11 @@
 
         <div class="mini-gallery">
           <figure>
-            <img src="images/basement-before.png" alt="Sous-sol encombré avant">
+            <img src="images/basement-before.png" alt="Garage encombré avant">
             <figcaption><span class="t-fr">Avant</span><span class="t-en">Before</span></figcaption>
           </figure>
           <figure>
-            <img src="images/basement-after.png" alt="Sous-sol vidé après">
+            <img src="images/basement-after.png" alt="Garage vidé après">
             <figcaption><span class="t-fr">Après</span><span class="t-en">After</span></figcaption>
           </figure>
         </div>
@@ -575,9 +574,7 @@
       <div class="reveal-up">
         <div class="ba-slider" id="baSlider">
           <img src="images/garage-before.png" alt="Garage encombré avant" class="ba-before">
-          <div class="ba-after-wrap" id="baAfterWrap">
-            <img src="images/garage-after.png" alt="Garage propre après">
-          </div>
+          <img src="images/garage-after.png" alt="Garage propre après" class="ba-after" id="baAfterImg">
           <div class="ba-handle" id="baHandle">
             <div class="ba-handle-grip">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3"/></svg>
@@ -1176,13 +1173,13 @@
 
   // Before/After draggable slider
   const slider = document.getElementById('baSlider');
-  const afterWrap = document.getElementById('baAfterWrap');
+  const afterImg = document.getElementById('baAfterImg');
   const handle = document.getElementById('baHandle');
   let dragging = false;
 
   function setSlider(percent){
     percent = Math.max(4, Math.min(96, percent));
-    afterWrap.style.width = percent + '%';
+    afterImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + '%';
   }
   function posFromEvent(e){
